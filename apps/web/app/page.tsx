@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/lib/store/store";
-import { TodoItem } from "@components/TodoItem";
+import { TodoItem } from "./components/TodoItem";
 import { addTodo, clearCompleted } from "@/lib/store/features/todo/todoSlice";
 
 export default function Home() {
@@ -24,10 +24,10 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col justify-center py-6 min-h-screen bg-gray-50 sm:py-12">
+    <div className="flex flex-col justify-center items-center p-6 min-h-screen bg-gray-50 sm:p-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        <div className="relative px-8 py-8 bg-white shadow-lg sm:rounded-3xl sm:px-20 sm:py-20">
           <div className="mx-auto max-w-md">
             <div className="divide-y divide-gray-200">
               <div className="py-8 space-y-4 text-base leading-6 text-gray-700 sm:text-lg sm:leading-7">
@@ -53,7 +53,10 @@ export default function Home() {
 
                 <div className="space-y-2">
                   {todos.map((todo) => (
-                    <TodoItem key={todo.id} todo={todo} />
+                    <TodoItem
+                      key={todo.id}
+                      todo={{ ...todo, createdAt: new Date() }}
+                    />
                   ))}
                 </div>
 

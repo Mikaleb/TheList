@@ -11,7 +11,7 @@ const CheckboxIndicator = CheckboxPrimitive.Indicator;
 
 interface TodoItemProps {
   todo: {
-    id: string;
+    id: number;
     text: string;
     completed: boolean;
     createdAt: Date;
