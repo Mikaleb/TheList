@@ -3,7 +3,8 @@
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTodoStore } from "@/lib/store";
+import { useDispatch } from "react-redux";
+import { toggleTodo, deleteTodo } from "@/lib/store/features/todo/todoSlice";
 
 const Checkbox = CheckboxPrimitive.Root;
 const CheckboxIndicator = CheckboxPrimitive.Indicator;
@@ -18,13 +19,13 @@ interface TodoItemProps {
 }
 
 export function TodoItem({ todo }: TodoItemProps) {
-  const { toggleTodo, deleteTodo } = useTodoStore();
+  const dispatch = useDispatch();
 
   return (
     <div className="flex gap-4 items-center p-3 rounded-lg transition-colors hover:bg-gray-500/10">
       <Checkbox
         checked={todo.completed}
-        onCheckedChange={() => toggleTodo(todo.id)}
+        onCheckedChange={() => dispatch(toggleTodo(todo.id))}
         className="h-5 w-5 shrink-0 rounded-lg border-gray-200 bg-white data-[state=checked]:bg-blue-500"
       >
         <CheckboxIndicator>
@@ -40,7 +41,7 @@ export function TodoItem({ todo }: TodoItemProps) {
         {todo.text}
       </span>
       <button
-        onClick={() => deleteTodo(todo.id)}
+        onClick={() => dispatch(deleteTodo(todo.id))}
         className="ml-auto text-gray-500 hover:text-gray-700"
         aria-label="Delete todo"
       >
