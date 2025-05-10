@@ -1,12 +1,12 @@
 "use client";
 
+import { loadFromStorage, saveToStorage } from "@/lib/storage/storageConnector";
 import {
-  createSlice,
   createEntityAdapter,
+  createSlice,
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { saveToStorage, loadFromStorage } from "@/lib/storage/storageConnector";
 
 export interface Todo {
   id: string;
@@ -18,12 +18,12 @@ export type StorageType = "localStorage" | "nextcloud";
 
 export enum FilterTypeEnum {
   all,
+  active,
   completed,
-  pending,
 }
 
 // Define filter type
-export type FilterType = "all" | "active" | "completed";
+export type FilterType = FilterTypeEnum;
 
 // Use createEntityAdapter for normalized state
 const todosAdapter = createEntityAdapter<Todo>();
@@ -38,7 +38,7 @@ interface TodosState {
 
 const initialState = todosAdapter.getInitialState({
   storageType: "localStorage",
-  filter: "all",
+  filter: FilterTypeEnum.all,
 } as TodosState);
 
 const todoSlice = createSlice({

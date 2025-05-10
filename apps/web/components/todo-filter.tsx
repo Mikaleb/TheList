@@ -1,15 +1,23 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
-import { FilterTypeEnum, setFilter } from "@/lib/features/todos/todoSlice";
-import type { RootState } from "@/lib/store";
 import { Button } from "@/components/ui/button";
-import { selectAllTodos } from "@/lib/features/todos/todoSlice";
-import { selectFilteredTodos } from "@/lib/features/todos/selectors";
+import { selectFilter } from "@/lib/features/todos/selectors";
+import {
+  FilterTypeEnum,
+  selectAllTodos,
+  setFilter,
+} from "@/lib/features/todos/todoSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+interface Todo {
+  id: string;
+  title: string;
+  completed: boolean;
+}
 
 export default function TodoFilter() {
   const todos = useSelector(selectAllTodos);
-  const currentFilter = useSelector(selectFilteredTodos);
+  const currentFilter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const itemsLeft = todos.filter((todo) => !todo.completed).length;
@@ -24,23 +32,27 @@ export default function TodoFilter() {
 
       <div className="flex space-x-2">
         <Button
-          variant={currentFilter === "all" ? "default" : "ghost"}
+          variant={currentFilter === FilterTypeEnum.all ? "default" : "ghost"}
           size="sm"
-          onClick={() => dispatch(setFilter("all"))}
+          onClick={() => dispatch(setFilter(FilterTypeEnum.all))}
         >
           All
         </Button>
         <Button
-          variant={currentFilter === "active" ? "default" : "ghost"}
+          variant={
+            currentFilter === FilterTypeEnum.active ? "default" : "ghost"
+          }
           size="sm"
-          onClick={() => dispatch(setFilter("active"))}
+          onClick={() => dispatch(setFilter(FilterTypeEnum.active))}
         >
           Active
         </Button>
         <Button
-          variant={currentFilter === "completed" ? "default" : "ghost"}
+          variant={
+            currentFilter === FilterTypeEnum.completed ? "default" : "ghost"
+          }
           size="sm"
-          onClick={() => dispatch(setFilter("completed"))}
+          onClick={() => dispatch(setFilter(FilterTypeEnum.completed))}
         >
           Completed
         </Button>
