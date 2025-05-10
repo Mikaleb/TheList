@@ -1,49 +1,65 @@
-"use client"
+"use client";
 
-import { useSelector, useDispatch } from "react-redux"
-import { toggleTodo, removeTodo, editTodo } from "@/lib/features/todos/todoSlice"
-import type { RootState } from "@/lib/store"
-import { useState } from "react"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Trash, Edit, Save, X } from "lucide-react"
+import { useSelector, useDispatch } from "react-redux";
+import {
+  toggleTodo,
+  removeTodo,
+  editTodo,
+} from "@/lib/features/todos/todoSlice";
+import type { RootState } from "@/lib/store";
+import { useState, useEffect } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Trash, Edit, Save, X } from "lucide-react";
+import { selectAllTodos } from "@/lib/features/todos/todoSlice";
 
 export default function TodoList() {
-  const todos = useSelector((state: RootState) => state.todos.items)
-  const filter = useSelector((state: RootState) => state.todos.filter)
-  const dispatch = useDispatch()
+  const todos = useSelector(selectAllTodos);
+  const filter = useSelector((state: RootState) => state.todos.filter);
+  const dispatch = useDispatch();
 
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") return !todo.completed
-    if (filter === "completed") return todo.completed
-    return true // "all" filter
-  })
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [editText, setEditText] = useState("")
+  // Ensure todos is always an array with proper logging for debugging
+  useEffect(() => {
+    if (!Array.isArray(todos)) {
+      console.error("Todos is not an array:", todos);
+    }
+  }, [todos]);
+
+  const filteredTodos = Array.isArray(todos)
+    ? todos.filter((todo) => {
+        if (filter === "active") return !todo.completed;
+        if (filter === "completed") return todo.completed;
+        return true; // "all" filter
+      })
+    : [];
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
 
   const handleEdit = (id: string, text: string) => {
-    setEditingId(id)
-    setEditText(text)
-  }
+    setEditingId(id);
+    setEditText(text);
+  };
 
   const handleSaveEdit = (id: string) => {
     if (editText.trim()) {
-      dispatch(editTodo({ id, text: editText }))
+      dispatch(editTodo({ id, text: editText }));
     }
-    setEditingId(null)
-  }
+    setEditingId(null);
+  };
 
   const handleCancelEdit = () => {
-    setEditingId(null)
-  }
+    setEditingId(null);
+  };
 
   if (filteredTodos.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        {todos.length === 0 ? "No todos yet. Add one to get started!" : `No ${filter} todos found.`}
+        {Array.isArray(todos) && todos.length === 0
+          ? "No todos yet. Add one to get started!"
+          : `No ${filter} todos found.`}
       </div>
-    )
+    );
   }
 
   return (
@@ -62,7 +78,12 @@ export default function TodoList() {
 
           {editingId === todo.id ? (
             <div className="flex flex-1 gap-2">
-              <Input value={editText} onChange={(e) => setEditText(e.target.value)} className="flex-1" autoFocus />
+              <Input
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+                className="flex-1"
+                autoFocus
+              />
               <Button size="sm" onClick={() => handleSaveEdit(todo.id)}>
                 <Save className="h-4 w-4" />
               </Button>
@@ -102,5 +123,5 @@ export default function TodoList() {
         </li>
       ))}
     </ul>
-  )
+  );
 }
