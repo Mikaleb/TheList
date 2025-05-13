@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TheList</string>
+    <string name="title_activity_main">TheList</string>
+    <string name="package_name">eu.thelistapp</string>
+    <string name="custom_url_scheme">eu.thelistapp</string>
+</resources>
