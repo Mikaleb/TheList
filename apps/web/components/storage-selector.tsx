@@ -1,14 +1,16 @@
-"use client"
+"use client";
 
-import { useDispatch, useSelector } from "react-redux"
-import { setStorageType } from "@/lib/features/todos/todoSlice"
-import type { RootState } from "@/lib/store"
-import { Button } from "@/components/ui/button"
-import { HardDrive, Cloud } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux";
+import { setStorageType } from "@/lib/features/todos/todoSlice";
+import type { RootState } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { HardDrive, Cloud } from "lucide-react";
 
 export default function StorageSelector() {
-  const storageType = useSelector((state: RootState) => state.todos.storageType)
-  const dispatch = useDispatch()
+  const storageType = useSelector(
+    (state: RootState) => state.todos.storageType
+  );
+  const dispatch = useDispatch();
 
   return (
     <div className="flex justify-center mb-6">
@@ -31,5 +33,5 @@ export default function StorageSelector() {
         </Button>
       </div>
     </div>
-  )
+  );
 }
