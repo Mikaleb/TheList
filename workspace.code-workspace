@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "apps/web"
+        }
+    ],
+    "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "javascript.updateImportsOnFileMove.enabled": "always",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll": "explicit"
+        },
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "typescript.tsserver.maxTsServerMemory": 4096,
+        "typescript.tsserver.watchOptions": {
+            "watchFile": "useFsEvents",
+            "watchDirectory": "useFsEvents",
+            "fallbackPolling": "priority"
+        }
+    }
+}
